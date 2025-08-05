@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phnom Penh Cafe - Coffee Shop In Phnom Penh</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link id="imgicon" rel="icon" type="image/x-icon" href="https://png.pngtree.com/template/20191203/ourmid/pngtree-coffee-logo-design-vector-image_337940.jpg">
+  <style>
+    #imgicon{
+      border-radius: 50%;
+    }
+    .slide {
+      transition: opacity 1s ease-in-out;
+    }
+    .cart-panel {
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .cart-panel.open {
+      transform: translateX(0);
+    }
+    .slide-overlay {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .container {
+    max-width: 1200px;
+  }
+
+  .absolute.rounded-full {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  /* Enhanced hover effects */
+  button:hover {
+    box-shadow: 0 20px 25px -5px rgba(194, 65, 12, 0.3);
+  }
+  </style>
+</head>
+<body>
+  <nav class="fixed top-0 left-0 right-0 z-50 shadow-md w- bg-orange-50">
+  <div class="container flex items-center justify-between px-4 py-4 mx-auto">
+    <a  href="http://127.0.0.1:5500/index.html" class="flex items-center justify-center text-xl font-bold text-orange-800 md:text-2xl">
+      Phnom Penh Cafe
+      <svg fill="#9a3513" height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier"> 
+          <g> <g> <path d="M323.658,318.36c-2.465-17.609-11.469-34.954-25.352-48.837c-13.885-13.885-31.228-22.888-48.838-25.353 c-18.975-2.657-36.773,2.739-48.834,14.8c-12.061,12.061-17.456,29.86-14.8,48.834c2.464,17.609,11.468,34.953,25.352,48.838 c13.885,13.883,31.228,22.887,48.838,25.352c3.175,0.444,6.318,0.664,9.406,0.664c15.35,0,29.358-5.41,39.4-15.435 c0.009-0.009,0.02-0.019,0.028-0.028C320.918,355.133,326.313,337.333,323.658,318.36z M233.466,334.361 c-11.196-11.196-17.153-25.365-16.811-37.088l53.905,53.905C258.836,351.521,244.664,345.556,233.466,334.361z M292.798,328.854 l-53.827-53.827c0.333-0.009,0.662-0.015,0.985-0.015c1.948,0,3.712,0.163,5.144,0.363c10.713,1.499,21.984,7.487,30.924,16.429 c8.941,8.941,14.929,20.212,16.427,30.923C292.685,324.395,292.866,326.518,292.798,328.854z"></path> </g> </g> <g> <g> <path d="M402.154,63.481h-15.835l-10.113-50.802C374.739,5.308,368.27,0,360.754,0H151.246c-7.515,0-13.984,5.308-15.452,12.68 l-10.113,50.802h-15.836c-8.701,0-15.755,7.054-15.755,15.755v50.681c0,8.701,7.054,15.755,15.755,15.755h0.341l24.086,351.647 c0.566,8.264,7.435,14.679,15.719,14.679H359.5c8.283,0,15.152-6.414,15.718-14.679l24.086-351.647h2.851 c8.701,0,15.755-7.054,15.755-15.755V79.236C417.91,70.535,410.856,63.481,402.154,63.481z M164.174,31.51h183.652l6.364,31.971 H157.81L164.174,31.51z M344.786,480.49H164.704l-3.989-58.239h188.061L344.786,480.49z M350.934,390.74H158.557l-11.486-167.69 H362.42L350.934,390.74z M364.578,191.538H144.912l-3.142-45.866h225.948L364.578,191.538z M386.399,114.162h-1.809h-258.99 V94.991h260.799V114.162z"></path> 
+          </g> </g> 
+        </g>
+      </svg>
+    </a>
+    <div class="items-center hidden space-x-6 md:flex">
+      <a href="#home" class="text-orange-800 hover:text-orange-600">Home</a>
+      <a href="#menu" class="text-orange-800 hover:text-orange-600">Menu</a>
+      <a href="#about" class="text-orange-800 hover:text-orange-600">About Us</a>
+      <a href="#contact" class="text-orange-800 hover:text-orange-600">Contact Us</a>
+      <button id="cart-btn" class="relative px-4 py-2 text-white bg-orange-600 rounded" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+        </svg>
+        <span id="cart-count" class="absolute flex items-center justify-center hidden w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -right-2">0</span>
+      </button>
+    </div>
+    <div class="flex items-center space-x-2 md:hidden">
+      <button id="cart-btn-mobile" class="relative px-3 py-2 text-sm text-white bg-orange-600 rounded" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+        </svg>
+        <span id="cart-count-mobile" class="absolute flex items-center justify-center hidden w-4 h-4 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">0</span>
+      </button>
+      <button id="mobile-menu-btn" class="p-2 text-orange-800 hover:text-orange-600" type="button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden bg-white border-t border-gray-200 md:hidden">
+    <div class="px-4 py-2 space-y-2">
+      <a href="#home" class="block w-full py-2 text-left text-orange-800 hover:text-orange-600 mobile-nav-link">Home</a>
+      <a href="#menu" class="block w-full py-2 text-left text-orange-800 hover:text-orange-600 mobile-nav-link">Menu</a>
+      <a href="#about" class="block w-full py-2 text-left text-orange-800 hover:text-orange-600 mobile-nav-link">About Us</a>
+      <a href="#contact" class="block w-full py-2 text-left text-orange-800 hover:text-orange-600 mobile-nav-link">Contact Us</a>
+    </div>
+  </div>
+</nav>
+
+  <section id="home" class="relative h-screen pt-20 overflow-hidden">
+    <div class="absolute inset-0 bg-center bg-cover opacity-100 slide" style="background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&h=800&fit=crop');">
+      <div class="absolute inset-0 flex items-center justify-center slide-overlay">
+        <div class="px-4 text-center text-white">
+          <h1 class="mb-4 text-5xl font-bold drop-shadow-lg">Welcome to Phnom Penh Cafe</h1>
+          <p class="mb-8 text-xl drop-shadow-md">The best coffee and snacks in Phnom Penh</p>
+          <a href="#menu" class="px-8 py-3 text-lg text-white transition-colors bg-orange-600 rounded-lg shadow-lg hover:bg-orange-700">View Menu</a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-center bg-cover opacity-0 slide" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&h=800&fit=crop');">
+      <div class="absolute inset-0 flex items-center justify-center slide-overlay">
+        <div class="px-4 text-center text-white">
+          <h1 class="mb-4 text-5xl font-bold drop-shadow-lg">Fresh Daily Specials</h1>
+          <p class="mb-8 text-xl drop-shadow-md">Try our delicious cakes and pastries made fresh every morning</p>
+          <a href="#menu" class="px-8 py-3 text-lg text-white transition-colors bg-orange-600 rounded-lg shadow-lg hover:bg-orange-700">Order Now</a>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="prev-slide" class="absolute z-10 p-3 text-white transition-all transform -translate-y-1/2 bg-black rounded-full left-4 top-1/2 bg-opacity-30 hover:bg-opacity-50">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button type="button" id="next-slide" class="absolute z-10 p-3 text-white transition-all transform -translate-y-1/2 bg-black rounded-full right-4 top-1/2 bg-opacity-30 hover:bg-opacity-50">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <div class="absolute z-10 flex space-x-3 transform -translate-x-1/2 bottom-8 left-1/2">
+      <button type="button" class="w-3 h-3 bg-white rounded-full shadow-lg slide-indicator" data-slide="0"></button>
+      <button type="button" class="w-3 h-3 bg-white bg-opacity-50 rounded-full shadow-lg slide-indicator" data-slide="1"></button>
+    </div>
+  </section>
+
+  <section id="menu" class="px-4 py-16 bg-gradient-to-t from-orange-200 to-orange-50">
+    <div data-aos="fade-up" data-aos-duration="1500">
+      <div class="container mx-auto">
+        <h2 class="mb-8 text-4xl font-bold text-center text-orange-800">Our Menu</h2>
+        <div class="max-w-md mx-auto mb-8">
+          <input type="text" id="menu-search" placeholder="Search Menu..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600">
+        </div>
+        <div class="flex justify-center gap-2 mb-8 xl:gap-5 lg:gap-5 md:gap-4 sm:gap-3">
+          <button data-category="All" class="gap-1 px-4 py-2 text-white bg-orange-600 rounded-lg lg:px-6 md:px-4 sm:px-4 xl:px-6 category-btn">
+            All
+          </button>
+          <button data-category="Coffee" class="gap-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg lg:px-6 md:px-4 sm:px-4 xl:px-6 category-btn hover:bg-gray-300">
+            Coffee
+          </button>
+          <button data-category="Cakes" class="gap-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg lg:px-6 md:px-4 sm:px-4 xl:px-6 category-btn hover:bg-gray-300">
+            Cakes
+          </button>
+          <button data-category="Snacks" class="gap-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg lg:px-6 md:px-4 sm:px-4 xl:px-6 category-btn hover:bg-gray-300">
+            Snacks
+          </button>
+          <button data-category="Tea" class="gap-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg lg:px-6 md:px-4 sm:px-4 xl:px-6 category-btn hover:bg-gray-300">
+            Tea
+          </button>
+        </div>
+        <div id="products-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        </div>
+        <div id="no-products" class="hidden py-8 text-center">
+          <p class="text-gray-600">No products found. Try searching for something else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="px-4 py-16 bg-gradient-to-b from-orange-200 to-orange-50">
+    <div data-aos="fade-up" data-aos-duration="5000">
+      <div class="container mx-auto">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-4xl font-bold text-orange-800">Our Story</h2>
+          <p class="max-w-xl mx-auto text-lg text-orange-700">
+            From humble beginnings to your favorite neighborhood coffee destination
+          </p>
+        </div>
+
+        <div class="grid items-center max-w-6xl gap-12 mx-auto md:grid-cols-2">
+          <!-- Image Column -->
+          <div class="relative">
+            <div class="relative overflow-hidden shadow-2xl rounded-2xl">
+              <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/e0/e2/89/the-shop-240-inside.jpg?w=600&h=-1&s=1" alt="Phnom Penh Cafe - Cozy interior with customers enjoying coffee" class="object-cover w-full h-auto transition-transform duration-500 hover:scale-105"/>
+              <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-orange-900/80 to-transparent">
+                <p class="text-lg font-medium text-white">Serving our community since 2010</p>
+              </div>
+            </div>
+            <!-- Decorative elements -->
+            <div class="absolute w-24 h-24 bg-orange-200 rounded-full -top-4 -right-4 opacity-60 -z-10"></div>
+            <div class="absolute w-32 h-32 bg-orange-300 rounded-full -bottom-6 -left-6 opacity-40 -z-10"></div>
+          </div>
+
+          <!-- Content Column -->
+          <div class="space-y-6">
+            <h3 class="text-3xl font-bold leading-tight text-orange-800">
+              A Passion for Perfect Coffee & Community
+            </h3>
+            
+            <div class="space-y-4">
+              <p class="text-lg leading-relaxed text-gray-700">
+                Phnom Penh Cafe has been serving the best coffee and treats since 2010. 
+                We use only the finest ingredients and freshly roasted beans sourced directly 
+                from sustainable farms across Cambodia and beyond.
+              </p>
+              
+              <p class="text-lg leading-relaxed text-gray-700">
+                Our mission is to create a warm, welcoming place where people can enjoy 
+                great coffee, delicious food, and meaningful connections with their community.
+              </p>
+            </div>
+
+            <!-- Feature highlights -->
+            <div class="grid grid-cols-2 gap-4 mt-8">
+              <div class="p-4 bg-white border border-orange-200 rounded-lg">
+                <div class="flex items-center space-x-3">
+                  <div class="flex items-center justify-center w-10 h-10 bg-orange-600 rounded-full">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-orange-800">Premium Beans</h4>
+                    <p class="text-sm text-gray-600">Ethically sourced</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 bg-white border border-orange-200 rounded-lg">
+                <div class="flex items-center space-x-3">
+                  <div class="flex items-center justify-center w-10 h-10 bg-orange-600 rounded-full">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-orange-800">Award Winning</h4>
+                    <p class="text-sm text-gray-600">13+ years excellence</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>   
+    </div>
+  </section>
+
+  <section class="px-4 py-16 bg-gradient-to-t from-orange-200 to-orange-50" id="contact">
+    <div data-aos="fade-up" data-aos-anchor-placement="top-center">
+      <div class="container mx-auto">
+        <h2 class="mb-8 text-4xl font-bold text-center text-orange-800">Contact Us</h2>
+        <div class="grid max-w-4xl grid-cols-1 gap-8 mx-auto md:grid-cols-2">
+          <div>
+            <h3 class="mb-4 text-2xl font-bold">Get In Touch</h3>
+            <div class="space-y-4">
+              <p><strong>Address:</strong> 123E Chao Chao II, Porsenchey, Phnom Penh</p>
+              <p><strong>Phone:</strong> (+855) 96 209 9135</p>
+              <p><strong>Email:</strong> Chungpor908@gmail.com</p>
+              <p><strong>Hours:</strong> Mon-Fri 7AM-8PM, Sat-Sun 8AM-9PM</p>
+            </div>
+          </div>
+          <div>
+            <form class="space-y-4" id="contact-form">
+              <input type="text" id="name" placeholder="Your Name" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600">
+              <input type="email" id="email" placeholder="Your Email" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600">
+              <textarea id="message" placeholder="Your Message" rows="4" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600"></textarea>
+              <button type="submit" class="w-full py-3 text-white bg-orange-600 rounded-lg hover:bg-orange-700">Send Message</button>
+            </form>
+            <div id="form-success" class="hidden p-4 mt-4 text-green-700 bg-green-100 rounded-lg">
+              Thank you! Your message has been sent.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="py-8 text-center text-white bg-orange-800">
+    <p>&copy; 2025 Phnom Penh Cafe. All rights reserved.</p>
+  </footer>
+  <div class="fixed inset-0 z-50 hidden bg-black bg-opacity-50" id="cart-overlay"></div>
+  <div id="cart-panel" class="fixed top-0 right-0 z-50 h-full bg-white shadow-xl cart-panel w-96">
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-between p-4 border-b">
+        <h2 class="text-xl font-bold">Your Cart</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+          <span class="text-2xl">&times;</span>
+        </button>
+      </div>
+      <div class="flex-1 p-4 overflow-y-auto" id="cart-items">
+        
+      </div>
+      <div id="empty-cart-message" class="flex flex-col items-center justify-start h-full pt-6 text-center text-gray-500"">
+        <p>Your cart is empty</p>
+        <a href="#menu" class="text-orange-600 hover:text-orange-800">Continue Shopping</a>
+      </div>
+
+      <div id="cart-footer" class="hidden p-4 border-t">
+        <div class="flex justify-between mb-4">
+          <span class="font-bold">Total:</span>
+          <span id="cart-total" class="font-bold">$0.00</span>
+        </div>
+        <button id="checkout-btn" class="w-full py-3 mb-2 text-white bg-orange-600 rounded-lg hover:bg-orange-700">
+          Checkout
+        </button>
+        <button id="clear-cart" class="w-full py-2 text-gray-700 bg-gray-300 rounded-lg hover:bg-gray-400">
+          Clear Cart
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+  <script src="products.js"></script>
+</body>
+</html>
